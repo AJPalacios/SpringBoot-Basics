@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -15,7 +17,7 @@ public class PersonService {
     private final PersonDao persondao;
 
     @Autowired
-    public PersonService(@Qualifier("fakeDao") PersonDao personDao){
+    public PersonService(@Qualifier("postgres") PersonDao personDao){
         this.persondao = personDao;
     }
 
@@ -26,5 +28,18 @@ public class PersonService {
     public List<Person> getAllPeople() {
         return persondao.selectAllPeople();
     }
+
+    public Optional<Person> getPersonById(UUID id) {
+        return persondao.selectPersonById(id);
+    }
+
+    public int deletePerson(UUID id) {
+        return persondao.deletePersonById(id);
+    }
+
+    public int upodatePerson(UUID id, Person newPerson) {
+        return persondao.updatePersonById(id, newPerson);
+    }
+
 
 }
